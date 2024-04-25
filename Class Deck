@@ -1,0 +1,36 @@
+
+# Create a class Deck that represents a deck of cards and a class
+# Card that represents a single specific suit and number. Your classes should have the
+# following methods:
+# • constructor: Creates a new Deck with a list of 52 objects of the class Card. Hint:
+# you can use two FOR loops to iterate over suits and numbers.
+# • shuffle: Randomizes the order of the cards in the list. You can use a built function
+# from a library.
+# • deal Card: Returns a single card (object) from the top of the deck and removes
+# the card from the list.
+# • cardsLeft: Returns the number of cards remaining in the deck.
+
+import random
+
+class Card:
+    def __init__(self, suit, number):
+        self.suit = suit
+        self.number = number
+
+    def __str__(self):
+        return self.number + " of " + self.suit
+
+class Deck:
+    def __init__(self):
+        self.cards = []
+        suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
+        numbers = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
+        for suit in suits:
+            for number in numbers:
+                self.cards.append(Card(suit, number))
+
+    def shuffle(self):
+        random.shuffle(self.cards)
+
+    def dealcard(self):
+        return len(self.cards)
