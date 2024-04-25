@@ -1,0 +1,35 @@
+# analysis:
+
+# positive whole number n>2 is prime if no number between 2 and n radical (inclusive evenly divides n
+
+# write program that accepts a value of n as input and determines if value is prime in a
+# functionisprime(num) that returns true or false. Your main program should only call function
+# then print if number is prime
+
+# HINT: if you need you can create boolean variables like flag = true
+
+
+import math
+
+def isPrime(num):
+    if num <= 1:
+        return False
+    if num == 2:
+        return True
+    if num % 2 == 0:
+        return False
+    max_div = math.isqrt(num)
+    for div in range(3, max_div + 1, 2):
+        if num % div == 0:
+            return False
+    return True
+
+def main():
+    num = int(input("Enter a positive whole number greater than 2: "))
+    if isPrime(num):
+        print(num) + " is a prime number.")
+    else:
+        print(num) + " is not a prime number.")
+
+if "name" == "main":
+    main()
