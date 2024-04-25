@@ -1,0 +1,22 @@
+# Analysis:
+# Make a program that will find out how much an investment will grow in value given the amount of years that pass
+# Specifications:
+# Take input from user of initial investment
+# Take input for how many years have passed
+# Take input for interest rate as decimal
+# Input those values in an equation to output and print the future value of the inital investment
+# Relation:
+#principal(1+apr)^10
+# Create Design:
+# Get initial investment input from user
+#  Get amount of years into the future input from user
+# plug that info into equation PV * (1+r)^2 = Future value
+
+def futurevalue():
+    inital_investment, years, interest_rate = eval(input("Enter inital investment, years, and interest rate"))
+    final_value = inital_investment*(1+interest_rate)**years
+
+    print("The final value is = $", final_value)
+futurevalue()
+
+#YAY FIRST CORRECT ALL BY YOURSELF
