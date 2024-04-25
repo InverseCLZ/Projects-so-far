@@ -1,0 +1,28 @@
+# analysis:
+# Write automated censor program that reads the text from a file nad creates a new file where all
+# four-letter words get replaced by ****.
+# assume no words in file are split across multiple lines.
+# HINT: work in version that ignores punctuation and assumes file does not have change of line characters
+# then work in following version building logic to deal with both challenges.
+
+# Spec:
+# get story from input file
+# look for 4 letter words
+# replace said words with ****
+
+def four_letter_words(filename):
+    with open(filename, 'r') as file:
+        text = file.read().split()
+
+    erased = []
+    for word in text:
+        if len(word) == 4:
+            erased.append("****")
+        else:
+            erased.append(word)
+
+    with open('censored_' + filename, 'w') as file:
+        file.write(' '.join(erased))
+
+file_to_censor = 'input.txt'
+four_letter_words(file_to_censor)
