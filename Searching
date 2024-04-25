@@ -1,0 +1,14 @@
+nValue = eval(input("enter the number you are looking for"))
+ListOfNumbers = [3, 1, 4, 2, 5]
+
+# Build a function that returns 1 if the number is present
+# and returns -1 if num is not present
+def search(x, nums):
+    counter = 0
+    for element in nums:
+        if element == x:
+            return counter
+        counter += 1
+    return -1
+
+print(search(nValue, ListOfNumbers))
