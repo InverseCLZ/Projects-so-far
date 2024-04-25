@@ -1,0 +1,26 @@
+# program should use while loop to determine how long it takes for investment to double at given interest rate
+
+# input will be annualized interest rate, output is number of years taken to double investment
+
+# NOTE: amount of initial investment doesn't matter
+# example:
+# if you invest $100 at 10% it takes 8 years to at least double but if invested at 5% it takes 15 years to
+# at least double
+
+
+
+def time_to_double(interest_rate):
+    initial_investment = 1
+    target_value = initial_investment * 2
+    years = 0
+
+    while initial_investment < target_value:
+        initial_investment *= (1 + float(interest_rate))
+        years += 1
+
+    return years
+
+
+interest_rate_str = input("Enter the annualized interest rate (as a percentage): ")
+years_to_double = time_to_double(interest_rate_str)
+print("It takes", years_to_double, "years for the investment to double at", interest_rate_str, "interest rate.")
