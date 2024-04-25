@@ -1,0 +1,5 @@
+def spamneggs():
+    spam, eggs = eval(input("Enter # of slices and # of eggs:"))
+    #some code too cook
+    print("You ordered,", eggs, "eggs and", spam, "slides of spam. Yum!")
+spamneggs()
