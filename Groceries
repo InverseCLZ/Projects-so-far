@@ -1,0 +1,11 @@
+def main():
+    product_amount = eval(input("write number of different products:"))
+    total = 0
+    for i in range(product_amount):
+        Price, Quantity = eval(input("What is the price and quantity of your product"))
+        subtotal = Price * Quantity
+        total = total + subtotal
+
+        print("Your items cost $",total)
+
+main()
