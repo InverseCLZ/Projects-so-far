@@ -1,0 +1,35 @@
+# An anagram is a word or phrase that can be created by transposing the letters of another word.
+# Create a program that recives two words, checks if one is an anagram of the other, and prints a proper message.
+# you can use any data type to collect all this information such as lists or dictionaries, eval what is simplier.
+
+
+def check_anagram(word1, word2):
+    #  lowercase wrds      (wrks)
+    word1 = word1.lower()
+    word2 = word2.lower()
+
+    # Remove spaces and punctuation       (wrks)
+    word1 = ''.join(char for char in word1 if char.isalnum())
+    word2 = ''.join(char for char in word2 if char.isalnum())
+
+    # same length of characters check      (wrks)
+    if len(word1) != len(word2):
+        return False
+
+    # Sort the characters /compare      (wrks)
+    return sorted(word1) == sorted(word2)
+
+
+def main():
+    # user input      (wrks)
+    word1 = input("Enter the first word: ")
+    word2 = input("Enter the second word: ")
+
+    # anagram check      (wrks)
+    if check_anagram(word1, word2):
+        print("'" + word1 + "' and '" + word2 + "' are anagrams.")
+    else:
+        print("'" + word1 + "' and '" + word2 + "' are not anagrams.")
+
+
+main()
