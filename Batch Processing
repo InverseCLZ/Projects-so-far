@@ -1,0 +1,32 @@
+# analysis
+# Crate username adn emails for freshamn in fall of 2024
+# Specifications
+# Get file
+# select character for first name
+# select 9 characters of last name
+# print them together
+# print output in another file
+# input: file name
+# output: emails or usernames for every student in the file
+# relation: Transform each line in input file to the user name and email
+# design: get the input file name and output file open with read and write mode respectfully
+# for each line in the input file seperate first and last name
+# get first 9 letters of last name
+# get first letter of first name
+# close files
+
+#getting file names: input and output files
+filename = input("write the input file name")
+infile = open(filename, "r")
+#open the files
+outputfilename = "username.txt"
+outfile = open(outputfilename, 'w')
+
+# start reading the file
+for line in infile:
+    # seperate the first and last name
+    firstname, lastname = line.split()
+    first_letter = firstname[0]
+    lastname9 = lastname[0:9]
+    username = first_letter + lastname9
+    print(username.lower(), file = outfile)
