@@ -1,0 +1,40 @@
+# Write a program that counts the number of words in a sentence entered by the user and
+# calculates the average word length.
+# Example: “This is a simple sentence
+def fromStringtoList(pString):
+    listOfStrNumbs = pString.split(",")
+    for i in range(0,len(listOfStrNumbs)):
+        listOfStrNumbs[i] = int(listOfStrNumbs[i])
+        return listOfStrNumbs
+
+def sumList(listN):
+    sum = 0
+    for element in listN:
+        sum = sum + element
+        return sum
+
+def sumListSquares(listN):
+    sum = 0
+    for element in listN:
+        sum = sum + element**2
+        return sum
+
+def sumListCubes(listN):
+    sum = 0
+    for element in listN:
+        sum = sum + element**3
+        return sum
+
+FileName = input("Enter the file name")
+inputFile = open(fileName, "r")
+outputFile = open("output.Sum.txt", "w")
+
+oneLine = inputFile.readline()
+
+while oneLine != "":
+    listNumsMain = fromStringtoList(oneLine)
+    sumListMain = sumlist(listNumsMain)
+    sumListSquaresMain = sumListSquares(listNumsMain)
+    sumListCubesMain = sumListCubes(listNumsMain)
+    oneLine = inputFile.readline()
+    print(listNumsMain, )
