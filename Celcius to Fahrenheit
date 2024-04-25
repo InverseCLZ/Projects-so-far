@@ -1,0 +1,12 @@
+# Analysis:
+# Design a program that will tell the user Celsius to Fahrenheit degree pairs from 0 to 100
+
+# Fahrenheit = 9/5 * Celsius + 32
+
+def new_main():
+    print("This program gives the vales of Celsius and Fahrenheit degree pairs from 0 to 100")
+    for Celsius in range(0, 110, 10):
+        Fahrenheit = 9/5 * Celsius + 32
+        print("Celsius:",Celsius, "| Fahrenheit:" ,Fahrenheit)
+
+new_main()
