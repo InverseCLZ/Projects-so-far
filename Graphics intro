@@ -1,0 +1,26 @@
+# Analysis:
+# function to move pWin, Pshape,newX and newY. Simulate translaiton of a circle
+# pShape paramenter is any circle varriable onbtained form the circle function(graphics libaray)
+# Use function to write program that drawns an inital circle then allows user to click anywhere in window
+# circle should move to where user clicked
+# Function win.getmouse() returns this point variable(object instance)
+# Function win.getMouse() returns point variable
+
+
+from graphics import *
+
+def moveTo(pWin, pShape, newX, newY):
+    newCircle = Circle(Point(newX, newY), pShape.getRadius())
+    newCircle.draw(pWin)
+    pShape.undraw()
+
+def main():
+    win = GraphWin("Move Circle", 400, 400)
+    initialCircle = Circle(Point(200, 200), 30)
+    initialCircle.draw(win)
+    pointClicked = win.getMouse()
+    newX = pointClicked.getX()
+    newY = pointClicked.getY()
+    moveTo(win, initialCircle, newX, newY)
+    win.getMouse()
+    win.close()
