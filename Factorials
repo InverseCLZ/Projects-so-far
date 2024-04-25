@@ -1,0 +1,8 @@
+n = eval(input("write the value of n:"))
+
+totalProd = 1
+# calculating factorial n+(n-1)*(n-2)*(n-3)*... * 2 * 1
+for i in range(n, 0, -1):
+    totalProd = totalProd * i
+
+    print(totalProd)
