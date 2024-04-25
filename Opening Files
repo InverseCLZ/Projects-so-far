@@ -1,0 +1,19 @@
+# opening the file
+inputFile = open("input.txt", "r")
+outputFile = open("output.txt", "w")
+
+
+# read the file
+oneString = inputFile.read()
+listofWords = oneString.split(" ")
+newMessage = ""
+
+for word in listofWords:
+    size = len(word)
+    if size ==4:
+        newWord = "****"
+    else:
+        newWord = word
+    newMessage = newMessage + " "+ newWord
+
+print(newMessage, file = outputFile)
