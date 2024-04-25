@@ -1,0 +1,23 @@
+# Write program that reads all numbers in file (line by line)
+# allows user to serach for specific number and show the line in which the user can find said value for
+# first time
+
+# spec:
+# get list of numebrs from user
+# scan through list for number user asked to find
+# show first itteration of said number in given list
+
+
+def search_number_in_file(filename, number):
+    with open(filename, 'r') as file:
+        line_number = 0
+        for line in file:
+            line_number += 1
+            if str(number) in line:
+                return line_number, line.strip()
+    return None, None  # Number not found
+
+def main():
+    filename = input("Enter the filename: ")
+    number = input("Enter the number to search for: ")
+
