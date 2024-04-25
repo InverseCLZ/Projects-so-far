@@ -1,0 +1,43 @@
+# Analysis:
+
+# program should write and test function innerprod(x,y) that computes the inner product of two lists x & y
+# ask user for how many elements both lists will have, read elements one by one using either for or while loop
+# first the elements of the first list and hten the other list. Inner product of x and y is computed as:
+# n-1
+# sum  xi * yi
+# i = 0
+
+def innerprod(x, y):
+    print("Computes the inner product of two lists.")
+    print("\nParameters:")
+    print("x, y (list): Lists of numbers.")
+    print("\nReturns:")
+    print("int/float: Inner product of x and y.")
+
+    if len(x) != len(y):
+        return "Lists must have the same length"
+
+    result = 0
+    for i in range(len(x)):
+        result += x[i] * y[i]
+    return result
+
+def main():
+    n = int(input("Enter the number of elements for both lists: "))
+
+    x = []
+    y = []
+
+    print("Enter elements for the first list:")
+    for i in range(n):
+        print("Enter element", i + 1, ": ", end="")
+        x.append(float(input()))
+
+    print("Enter elements for the second list:")
+    for i in range(n):
+        print("Enter element", i + 1, ": ", end="")
+        y.append(float(input()))
+
+    print("Inner product of the two lists:", innerprod(x, y))
+
+main()
