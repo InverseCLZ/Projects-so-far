@@ -1,0 +1,8 @@
+print("this program calculates the future investment value in 10 years")
+principal = eval(input(("Enter the principal amount:")))
+apr = eval(input("Enter the APR (in decimal):"))
+for i in range(10):
+    principal = principal *(1+apr)
+
+print("The value in 10 years is:", principal)
+
