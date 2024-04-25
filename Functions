@@ -1,0 +1,24 @@
+# import the graphics library
+import graphics as gp
+
+def main():
+    #create a window
+    win = gp.GrapWin("Our First Window", 640, 480)
+
+    # create main circle, two small circles (eyes) and line (mouth)
+    circleCenter = gp.Point(50,50)
+    radius = eval(input("Enter radius between 0 and 50"))
+    mainCircle = gp.Circle(circleCenter, radius1)
+    leftEyeCenter = gp.Point(circleCenter.getX() - radius1/2, circleCenter.getY() - radius1/2)
+    leftEye = gp.Circle(leftEyeCenter, radius 1/5)
+
+    RightEyeCenter = gp.Point(circleCenter.getX() + radius1/2, circleCenter.getY() - radius1/2)
+    rightEye = gp.Circle(rightEyeCenter, radius1/5)
+
+    mainCircle.Draw(win)
+
+    win.getMouse()
+    win.close()
+
+
+    main()
