@@ -1,0 +1,69 @@
+# Write definitions for the following three functions:
+# fromStringToList(string) that receives a line of a file as a text and returns a list of numbers
+# sumList(listN) returns the sum of the numbers in a list
+# sumListSquares(listN) returns the sum of the squares of the numbers in a list
+# sumListCubes(listN) returns the sum of the cubes of the numbers in a list
+# Then, use these functions in a program that prompts a user for the name of the file to
+# open it and perform the three different sum functions for every line of numbers in the
+# file. The program should save the results of the three functions separated by comma in
+# the file outputSum.txt.
+# input.txt output.txt
+# 5,3 8,34,152
+# 2,4,6,8,10 30,220,1800
+# 1,2,3,4 10,30,100
+
+def fromStringToList(string):
+
+    return listN
+
+
+def sumList(listN):
+    sumResult = sum(listN)
+
+    return sumResult
+
+
+def sumListSquares(listN):
+    sumSquares = sum(x ** 2 for x in listN)
+
+    return sumSquares
+
+
+def sumListCubes(listN):
+    sumCubes = sum(x ** 3 for x in listN)
+
+    return sumCubes
+
+
+print()
+
+def fromStringToList(string):
+    return [int(num) for num in string.split(',')]
+
+def sumList(listN):
+    return sum(listN)
+
+def sumListSquares(listN):
+    return sum(x**2 for x in listN)
+
+def sumListCubes(listN):
+    return sum(x**3 for x in listN)
+
+input_file_name = input("Enter the input file name: ")
+
+input_file = open(input_file_name, 'r')
+output_file = open('outputSum.txt', 'w')
+
+for line in input_file:
+    numbers_list = fromStringToList(line)
+    total_sum = sumList(numbers_list)
+    sum_squares = sumListSquares(numbers_list)
+    sum_cubes = sumListCubes(numbers_list)
+
+    result_line = "Sum: " + str(total_sum) + ", Sum of Squares: " + str(sum_squares) + ", Sum of Cubes: " + str(sum_cubes) + "\n"
+    output_file.write(result_line)
+
+input_file.close()
+output_file.close()
+
+print("Results have been saved to 'outputSum.txt'.")
