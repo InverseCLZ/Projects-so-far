@@ -1,0 +1,9 @@
+# convert.py
+# A program to convert Celsius temps to Fahrenheit
+# by Susan Computewell
+
+def main():
+    Celsius = eval(input("what is the Celsius temperature?"))
+    fahrenheit = 9/5 * Celsius + 32
+    print("The temprature is", fahrenheit, "degrees Fahrenheit")
+main()
