@@ -1,0 +1,37 @@
+# Implement a simple card game where there are two players. Each of them, by turns, deals
+# 5 cards, and the player whose cards add up to the highest wins the round. The winner of
+# the game is the player that won most of the rounds. The final round might have less
+# number of cards drawn
+
+import random
+
+
+class Card:
+    def __init__(self, pSuit, pValue):
+        self.suit = pSuit
+        self.value = pValue
+
+class Deck:
+    def __init__(self):
+        self.listOfCards = []
+        for suit in ["clubs", "spades", "hearts", "diamonds"]:
+            for number in range(1, 14):
+                newCard = Card(suit, number)
+                self.listOfCards.append(newCard)
+
+    def shuffle(self):
+        random.shuffle(self.listOfCards)
+
+    def dealCard(self):
+        deltCard = self.listOfCards[0]
+        self.listOfCards = self.listOfCards[1:]
+        return deltCard
+
+    def cardsLeft(self):
+        return len(self.listOfCards)
+
+deck1 = Deck()
+deck1.shuffle()
+card1 = deck1.dealCard()
+print(card1.value, card1.suit)
+print(deck1.cardsLeft())
