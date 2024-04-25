@@ -1,0 +1,51 @@
+# write a program that reads student's final grades using a while loop.
+# Then it should print the grades sorted from smallest to largest. No need to consider efficiency of program.
+# start with the simplest solution even though it involves several steps or loops
+# you cannot use the built in function: sort().
+# Hint: use as many lists as needed
+
+# grades.txt                                    output.txt
+# Juan, 90                                      78
+# Oscar, 78                                     83
+# Cristina, 83                                  90
+
+def main():
+    # store grades      (wrks)
+    grades = []
+
+    # Read grades.txt      (wrks)
+    with open("grades.txt", "r") as file:
+        for line in file:
+            # no whitespace, split by comma      (wrks)
+            parts = line.strip().split(',')
+            if len(parts) != 2:
+                print("Ignored line:", line.strip())
+                continue
+
+            name, grade_str = parts
+            # convert to float, or line skip      (wrks)
+            try:
+                grade = float(grade_str)
+            except ValueError:
+                print("Ignoring line due to incorrect grade being entered :(", line.strip())
+                continue
+
+            # Append       (wrks)
+            grades.append((name, grade))
+
+    # grades in ascending order      (wrks)
+    n = len(grades)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if grades[j][1] > grades[j + 1][1]:
+                grades[j], grades[j + 1] = grades[j + 1], grades[j]
+
+    # grades to output.txt      (wrks)
+    with open("output.txt", "w") as file:
+        for name, grade in grades:
+            file.write(name + "," + str(grade) + "\n")
+
+    print("Sorted grades are written to output.txt.")
+
+
+main()
