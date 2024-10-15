@@ -1,217 +1,254 @@
-import java.util.List;
+import java.util.Scanner;
+import java.util.Random;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
-public class Game {
+public class deal_or_no_deal_midterm{
 
-    private Case[] cases = new Case[26];
-    private Player player = new Player();
-    private Banker banker = new Banker();
-    private int myAmount = 0;
-    private int turn = 1;
-    private int briefCases = 26;
-    private int casesToRemove = 6;
-    private int offer = 0;
-    private boolean gameContinue = true;
+    //Case totals
+    private static final int total_case = 26;
 
-    public void caseSetup() {
+    //values of each case in an [array format]
+    private Integer[] case_values = {
+            1, 5, 10, 25, 50, 75, 100, 200, 300, 400,
+            500, 750, 1000, 5000, 10000, 25000, 50000,
+            75000, 100000, 200000, 300000, 400000,
+            500000, 750000, 900000, 1000000
+    };
 
-        List<Integer> values = Arrays.asList(1, 5, 10, 100, 500, 750, 1000, 20000, 50000, 75000, 95000,
-                100000, 150000, 250000, 350000, 400000, 450000, 500000, 600000, 700000, 25, 900000, 1000000, 1500000, 300, 900000);
 
-        Collections.shuffle(values);
 
-        for (int i = 0; i < cases.length; i++) {
-            int amount = values.get(i);
-            cases[i] = new Case(amount, i + 1);
-        }
+//----------------------------------------------------------------------------------------------------------------------
+    //track if the case has been used in an [array format]
+    private boolean[] open_case = new boolean[total_case];
+
+
+    // input scanner
+    private Scanner scanner = new Scanner(System.in);
+
+
+    // Random object = shuffling cases
+    private Random random = new Random();
+
+
+    // Player's chosen case in [index format]
+    private int player_case = -1;
+
+
+    // banker makes offer here
+    private int bankerOffer = 0;
+
+
+    // check one to see if game is good to keep going
+    private boolean game_continue = true;
+
+
+    public static void main(String[] args) {
+        deal_or_no_deal_midterm game = new deal_or_no_deal_midterm();
+        game.startgame();
     }
-    public void showCase(){
-        for (int j = 0; j < cases.length; j++) {
-            System.out.print("\t[" + cases[j].getFace() + "] ");
-            if (j % 5 == 4) {
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
+    // starting game here:
+    public void startgame() {
+        shuffle_case();
+        display_case();
+        chooseplayer1case();
+        playd_rounds();
+        show_result();
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    // shuffle case values randomly here:
+    private void shuffle_case() {
+        List<Integer> valuesList = Arrays.asList(case_values);
+        Collections.shuffle(valuesList);
+        valuesList.toArray(case_values);
+    }
+
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    // shows state of all cases
+    private void display_case() {
+        System.out.println("\nCurrent Cases Status:");
+        for (int i = 0; i < total_case; i++) {
+            if (open_case[i]) {
+                System.out.print("[X] ");
+            } else {
+                System.out.print("[" + (i + 1) + "] ");
+            }
+
+            // each line = 10 cases to fit in textbox [for user input]
+            if ((i + 1) % 10 == 0) {
                 System.out.println();
             }
         }
+        System.out.println();
     }
 
-    public void game(){
-        caseSetup();
-        showCase();
+//----------------------------------------------------------------------------------------------------------------------
+    // first case prompt
+    private void chooseplayer1case() {
+        System.out.println("Welcome to Deal or No Deal!");
+        while (true) {
+            System.out.print("Choose your case (1-" + total_case + "): ");
+            int choice = check_valid_input();
+            if (!open_case[choice - 1]) {
+                player_case = choice - 1;
+                open_case[player_case] = true; // Mark as opened to exclude from removal
+                System.out.println("You have chosen case #" + choice + " to keep until the end.");
+                break;
+            } else {
+                System.out.println("Case #" + choice + " has already been opened. Please choose another case.");
+            }
+        }
+    }
 
-        myAmount = player.userCase(cases);
-        briefCases--;
 
-        while(gameContinue==true){
 
-            if(briefCases == 25||briefCases == 19 ||briefCases == 14 || briefCases == 10 ||briefCases == 7){
-                for(int counter = casesToRemove;counter>0;counter--){
-                    player.removeCase(counter,cases);
-                    briefCases--;
-                    showCase();
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------
+    // main game rounds
+    private void playd_rounds() {
+        // # of cases player gets to open each round
+        int[] cases_per_round = {5, 4, 3, 2, 1};
+        int total_rounds = cases_per_round.length;
+        int roundNumber = 1;
+        for (int cases_to_open : cases_per_round) {
+            System.out.println("\n--- Round " + roundNumber + " ---");
+            for (int i = 0; i < cases_to_open; i++) {
+                display_case();
+                int caseChoice = getCaseToOpen();
+                open_case[caseChoice] = true;
+                System.out.println("You opened case #" + (caseChoice + 1) + " revealing: $" + case_values[caseChoice]);
+            }
+
+
+
+
+            _calc_banker_offer(roundNumber);
+            System.out.println("The Banker's offer is: $" + bankerOffer);
+            boolean deal = getDealOrNoDeal();
+            if (deal) {
+                System.out.println("Congratulations! You accepted the deal and won $" + bankerOffer + ".");
+                game_continue = false;
+                break;
+            }
+            roundNumber++;
+        }
+    }
+//----------------------------------------------------------------------------------------------------------------------
+
+
+
+    // calcBanker's offer [using remaining cases]
+    private void _calc_banker_offer(int round) {
+        int total = 0;
+        int are_left = 0;
+
+        for (int i = 0; i < total_case; i++) {
+            if (!open_case[i]) {
+                total += case_values[i];
+                are_left++;
+            }
+        }
+//----------------------------------------------------------------------------------------------------------------------
+        if (are_left == 0) {
+            bankerOffer = 0;
+        } else {
+            double average = (double) total / are_left;
+            bankerOffer = (int) (average * (1 - (round * 0.1))); // offer gets lessened by round
+        }
+    }
+
+    // accept deal or continue :)
+    private boolean getDealOrNoDeal() {
+        while (true) {
+            System.out.print("Do you accept the deal? (yes/no): ");
+            String response = scanner.nextLine().trim().toLowerCase();
+            if (response.equals("yes") || response.equals("y")) {
+                return true; // Player accepts the deal
+            } else if (response.equals("no") || response.equals("n")) {
+                return false; // Player continues the game
+            } else {
+                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+            }
+        }
+    }
+
+    // make sure it's a real number
+    private int check_valid_input() {
+        while (true) {
+            String input = scanner.nextLine();
+            try {
+                int choice = Integer.parseInt(input);
+                if (choice >= 1 && choice <= total_case) {
+                    return choice;
+                } else {
+                    System.out.print("Invalid choice. Enter a number between 1 and " + total_case + ": ");
                 }
-                offer = banker.getOffer(turn,cases,myAmount);
-                gameContinue = player.dnd();
-                casesToRemove--;
-                turn++;
-            }else if(briefCases == 1){
-                player.removeCase(1,cases);
-                offer = banker.getOffer(turn,cases,myAmount);
-                gameContinue = player.dnd();
-                casesToRemove--;
-                briefCases--;
-                turn++;
-            }
-            else{
-                player.removeCase(1,cases);
-                offer = banker.getOffer(turn,cases,myAmount);
-                gameContinue = player.dnd();
-                casesToRemove--;
-                briefCases--;
-                turn++;
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input. Please enter a valid number: ");
             }
         }
-        finishGame();
-    }
-    public void finishGame(){
-        if(briefCases == 0){
-            System.out.println("You've rejected the Offer of banker");
-            System.out.println("You've won "+myAmount+"And your Case is Larger Than Bankers Offer: "+offer);
-        }else{
-            System.out.println("Your Accept the offer of banker");
-            System.out.println("You've won "+myAmount+" and the Bankers offer is :"+offer);
-        }
     }
 
-}
-
-Banker Class
-
-public class Banker{
-
-    private int total = 0;
-    private int numOfSamples = 0;
-    private int average = 0;
-    private int offer = 0;
-
-    public void setOffer(int turn,Case[] cases,int myAmount){
-        for(int i = 0 ;  i < cases.length;i++){
-            if(!cases[i].Removed()){
-                total = myAmount+cases[i].getValue();
-                numOfSamples++;
+    // popping open cases
+    private int getCaseToOpen() {
+        while (true) {
+            System.out.print("Choose a case to open (1-" + total_case + "): ");
+            int choice = check_valid_input();
+            if (choice - 1 == player_case) {
+                System.out.println("You cannot open your own case. Choose another case.");
+            } else if (open_case[choice - 1]) {
+                System.out.println("Case #" + choice + " has already been opened. Choose another case.");
+            } else {
+                return choice - 1;
             }
         }
-        average = myAmount+total/numOfSamples;
-        offer = average*turn/10;
     }
 
-    public int getOffer(int turn,Case[] cases,int myAmount){
-        setOffer(turn,cases,myAmount);
-        System.out.print("The Bankers Offer Is: "+offer);
-        return offer;
-    }
-}
+//----------------------------------------------------------------------------------------------------------------------
 
-The Briefcase Class
+    // stop the game and show player his cases and all the others too [ what you got scammed for]
+    private void show_result() {
+        if (game_continue) {
+            System.out.println("\n--- Final Reveal ---");
+            System.out.println("Your chosen case (#" + (player_case + 1) + ") contains: $" + case_values[player_case]);
 
-public class Case{
-
-    private int value = 0;
-    private String face;
-    private boolean removed = false;
-
-    public Case(int nValue,int nFace){
-        this.value = nValue;
-        this.face = Integer.toString(nFace);
-    }
-
-    public int getValue(){
-        return value;
-    }
-
-    public String getFace(){
-        return face;
-    }
-
-    public boolean Removed()
-    {
-        return removed;
-    }
-
-    public void remove(){
-        removed = true;
-        face = "X";
-    }
-}
-
-Main class
-
-public class GameTest{
-
-    public static void main(String[] args){
-
-        Game DND = new Game();
-        DND.game();
-    }
-}
-public class Banker{
-
-    private int total = 0;
-    private int numOfSamples = 0;
-    private int average = 0;
-    private int offer = 0;
-
-    public void setOffer(int turn,Case[] cases,int myAmount){
-        for(int i = 0 ;  i < cases.length;i++){
-            if(!cases[i].Removed()){
-                total = myAmount+cases[i].getValue();
-                numOfSamples++;
+            // Find the remaining unopened case
+            int remainingValue = -1;
+            for (int i = 0; i < total_case; i++) {
+                if (!open_case[i]) {
+                    remainingValue = case_values[i];
+                    System.out.println("The remaining case (#" + (i + 1) + ") contains: $" + remainingValue);
+                    break;
+                }
             }
+
+            if (remainingValue != -1) {
+                if (case_values[player_case] > remainingValue) {
+                    System.out.println("You have more money in your case than the remaining case!");
+                } else if (case_values[player_case] < remainingValue) {
+                    System.out.println("The remaining case has more money than your case.");
+                } else {
+                    System.out.println("Both cases have the same amount!");
+                }
+            } else {
+                System.out.println("All cases have been opened.");
+            }
+
+            System.out.println("Thank you for playing Deal or No Deal!");
         }
-        average = myAmount+total/numOfSamples;
-        offer = average*turn/10;
-    }
-
-    public int getOffer(int turn,Case[] cases,int myAmount){
-        setOffer(turn,cases,myAmount);
-        System.out.print("The Bankers Offer Is: "+offer);
-        return offer;
-    }
-}
-public class Case{
-
-    private int value = 0;
-    private String face;
-    private boolean removed = false;
-
-    public Case(int nValue,int nFace){
-        this.value = nValue;
-        this.face = Integer.toString(nFace);
-    }
-
-    public int getValue(){
-        return value;
-    }
-
-    public String getFace(){
-        return face;
-    }
-
-    public boolean Removed()
-    {
-        return removed;
-    }
-
-    public void remove(){
-        removed = true;
-        face = "X";
-    }
-}
-public class GameTest{
-
-    public static void main(String[] args){
-
-        Game DND = new Game();
-        DND.game();
     }
 }
