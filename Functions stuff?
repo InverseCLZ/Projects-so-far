@@ -1,0 +1,46 @@
+import java.util.Scanner;
+    public class Main {
+    /*
+    for this one, if you remember, I asked you to come up with a 'reason' for a function and implement it.
+    Now you get to do it! yay!!!!!
+    please go a little more complex than just simple math/simple printing for the function.
+    Feel free to google some inspiration though :)
+    */
+
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+//----------------------------------------------------------------------------------------------------------------------
+
+            // At first I was just going to do a cel to fah converter. but you asked for it to be a little more complex
+            // hope this works!
+
+            System.out.println("Choose a conversion type:");
+            System.out.println("1. Celsius to Fahrenheit");
+            System.out.println("2. Fahrenheit to Celsius");
+            System.out.println("3. Celsius to Kelvin");
+            System.out.print("Enter your choice (1, 2, or 3): ");
+            int choice = scanner.nextInt();
+
+            System.out.print("Enter the temperature: ");
+            double temperature = scanner.nextDouble();
+//----------------------------------------------------------------------------------------------------------------------
+            // Calling conversion method, printing result
+            double result = convertTemperature(choice, temperature);
+            System.out.println("Converted temperature: " + result);
+
+            scanner.close();
+        }
+//----------------------------------------------------------------------------------------------------------------------
+        // Multi-purpose temperature conversion method
+        public static double convertTemperature(int choice, double temp) {
+            switch (choice) {
+                case 1:  // Celsius to Fahrenheit
+                    return (temp * 9 / 5) + 32;
+                case 2:  // Fahrenheit to Celsius
+                    return (temp - 32) * 5 / 9;
+                case 3:  // Celsius to Kelvin
+                    return temp + 273.15;
+
+            }
+        }
+    }
